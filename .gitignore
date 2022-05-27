@@ -1,0 +1,14 @@
+/target/
+/reports/
+/logs/
+/test-output/
+/.idea
+/.settings
+/.project
+/.classpath
+/.DS_Store/
+**/.DS_Store
+.DS_Store
+.DS_Store?
+*.iml
+src/main/resources/ProjectDetails/ProjectDetails.properties
