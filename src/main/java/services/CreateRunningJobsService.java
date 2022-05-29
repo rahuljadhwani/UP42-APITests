@@ -2,7 +2,7 @@ package services;
 
 import constants.APIPaths;
 import enums.Strength;
-import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import pojo.requests.CreateRunningJobsPojo;
 import pojo.requests.jobs.NasaModisJob;
 import pojo.requests.jobs.SharpeningJob;
@@ -12,13 +12,12 @@ import java.util.Arrays;
 
 import static io.restassured.RestAssured.*;
 
-public class CreatingRunningJobs {
+public class CreateRunningJobsService {
 
-    public void createJobsWithDefaultData(){
+    public Response createJobsWithDefaultData(String workflowId){
 
         CreateRunningJobsPojo createRunningJobsPojo = new CreateRunningJobsPojo();
         NasaModisJob nasaModisJob = createNasaModisJobWithDefaultData();
-        //nasaModisJob.setZoom_level(10);
 
         SharpeningJob sharpeningJob = new SharpeningJob();
         sharpeningJob.setStrength(Strength.medium);
@@ -27,10 +26,9 @@ public class CreatingRunningJobs {
         createRunningJobsPojo.setNasamodis(nasaModisJob);
         createRunningJobsPojo.setSharpening(sharpeningJob);
 
-
-        given().auth().oauth2(TokenManager.getToken())
-                .contentType(ContentType.JSON).body(createRunningJobsPojo).when().post(new APIPaths().getCreateRunningJobsPath())
-                .getBody().prettyPrint();
+        return given(BaseService.getRequestSpec(APIPaths.getCreateRunningJobsPath(workflowId))).auth().oauth2(TokenManager.getToken())
+                .body(createRunningJobsPojo).when().post()
+                .then().spec(BaseService.getResponseSpec()).extract().response();
     }
 
     public static NasaModisJob createNasaModisJobWithDefaultData(){
@@ -44,9 +42,9 @@ public class CreatingRunningJobs {
         return nasaModisJob;
     }
 
-    public void createJobsWithDefaultData(CreateRunningJobsPojo createRunningJobsPojo) {
-        given(BaseService.getRequestSpec(APIPaths.getBaseURI())).auth().oauth2(TokenManager.getToken())
-                .contentType(ContentType.JSON).body(createRunningJobsPojo).when().post(new APIPaths().getCreateRunningJobsPath())
-                .getBody().prettyPrint();
+    public Response createJobsWithDefaultData(String workflowId, CreateRunningJobsPojo createRunningJobsPojo) {
+        return given(BaseService.getRequestSpec(APIPaths.getCreateRunningJobsPath(workflowId))).auth().oauth2(TokenManager.getToken())
+                .body(createRunningJobsPojo).when().post()
+                .then().spec(BaseService.getResponseSpec()).extract().response();
     }
     }

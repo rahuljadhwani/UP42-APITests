@@ -5,25 +5,32 @@ import pojo.requests.CreateWorkflowPojo;
 import pojo.requests.TasksPojo;
 import pojo.requests.jobs.NasaModisJob;
 import pojo.requests.jobs.SharpeningJob;
-import services.AddingWorkflowTasksService;
-import services.CreateWorkflowService;
-import services.CreatingRunningJobs;
+import services.*;
 
 public class TestOne {
 
     @Test
-    public void testFetchAccessToken(){
+    public void endtoEndFlowTest(){
 
         CreateWorkflowPojo createWorkflowPojo = new CreateWorkflowPojo();
         createWorkflowPojo.setName("Rahul Workflow");
         createWorkflowPojo.setDescription("QA Rahul description");
         CreateWorkflowService createWorkflowService = new CreateWorkflowService();
-        String workFlowId = createWorkflowService.getWorkflowId(createWorkflowPojo);
+        String workflowId = createWorkflowService.getWorkflowId(createWorkflowPojo);
 
         AddingWorkflowTasksService addingWorkflowTasksService = new AddingWorkflowTasksService();
         TasksPojo[] tasks = createDefaultTask();
 
-        addingWorkflowTasksService.addWorkflowTasksWithDefaultData(workFlowId,tasks);
+        addingWorkflowTasksService.addWorkflowTasksWithDefaultData(workflowId,tasks).prettyPrint();
+
+        CreateRunningJobsService createRunningJobsService = new CreateRunningJobsService();
+        String jobId = createRunningJobsService.createJobsWithDefaultData(workflowId).getBody().jsonPath().get("data.id");
+
+        RetrieveJobDetailsService retrieveJobDetailsService = new RetrieveJobDetailsService();
+        retrieveJobDetailsService.retrieveJobDetails(jobId);
+
+        DeleteWorkflowService deleteWorkflowService = new DeleteWorkflowService();
+        deleteWorkflowService.deleteWorkflow(workflowId);
 
     }
 
@@ -52,19 +59,19 @@ public class TestOne {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void testRunningJobsCreation(){
         CreateRunningJobsPojo createRunningJobsPojo = new CreateRunningJobsPojo();
 
-        CreatingRunningJobs creatingRunningJobs = new CreatingRunningJobs();
+        CreateRunningJobsService creatingRunningJobsService = new CreateRunningJobsService();
 
-        NasaModisJob nasaModisJob = CreatingRunningJobs.createNasaModisJobWithDefaultData();
+        NasaModisJob nasaModisJob = CreateRunningJobsService.createNasaModisJobWithDefaultData();
 
         SharpeningJob sharpeningJob = new SharpeningJob();
         sharpeningJob.setStrength(Strength.medium);
         createRunningJobsPojo.setSharpening(sharpeningJob);
         createRunningJobsPojo.setNasamodis(nasaModisJob);
-        creatingRunningJobs.createJobsWithDefaultData(createRunningJobsPojo);
+//        creatingRunningJobsService.createJobsWithDefaultData(createRunningJobsPojo);
 
 
     }

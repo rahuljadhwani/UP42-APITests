@@ -25,22 +25,22 @@ public class APIPaths {
     }
 
 
-    public static String getAddingWorkflowTasksPath(String workFlowId) {
-        return String.format(addingWorkflowTasksURI,FrameworkConstants.getProjectID(),workFlowId);
+    public static String getAddingWorkflowTasksPath(String workflowId) {
+        return String.format(addingWorkflowTasksURI,FrameworkConstants.getProjectID(),workflowId);
     }
 
-    public static String getCreateRunningJobsPath() {
-        return createRunningJobsURI;
-    }
-
-
-    public static String getRetrieveJobDetailsURI() {
-        return retrieveJobDetailsURI;
+    public static String getCreateRunningJobsPath(String workflowId) {
+        return String.format(createRunningJobsURI,FrameworkConstants.getProjectID(), workflowId);
     }
 
 
-    public static String getDeleteWorkflowURI() {
-        return deleteWorkflowURI;
+    public static String getRetrieveJobDetailsURI(String jobId) {
+        return String.format(retrieveJobDetailsURI, FrameworkConstants.getProjectID(), jobId);
+    }
+
+
+    public static String getDeleteWorkflowURI(String workflowId) {
+        return String.format(deleteWorkflowURI,FrameworkConstants.getProjectID(),workflowId);
     }
 
 }
