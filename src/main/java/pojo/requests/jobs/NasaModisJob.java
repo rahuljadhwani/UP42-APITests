@@ -1,5 +1,6 @@
 package pojo.requests.jobs;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +11,15 @@ import java.util.List;
 public class NasaModisJob extends Jobs{
 
     private String time;
+
     private int limit;
-    private int zoom_level;
-    private List<String> imagery_layers;
+
+    @JsonProperty("zoom_level")
+    private int zoomLevel;
+
+    @JsonProperty("imagery_layers")
+    private List<String> imageryLayers;
+
     private List<Double> bbox;
 
 }
