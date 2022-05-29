@@ -29,11 +29,11 @@ public class CreatingRunningJobs {
 
 
         given().auth().oauth2(TokenManager.getToken())
-                .contentType(ContentType.JSON).body(createRunningJobsPojo).when().post(new APIPaths().getCreateRunningJobsURI())
+                .contentType(ContentType.JSON).body(createRunningJobsPojo).when().post(new APIPaths().getCreateRunningJobsPath())
                 .getBody().prettyPrint();
     }
 
-    private NasaModisJob createNasaModisJobWithDefaultData(){
+    public static NasaModisJob createNasaModisJobWithDefaultData(){
         NasaModisJob nasaModisJob = new NasaModisJob();
         nasaModisJob.setTime("2018-12-01T00:00:00+00:00/2020-12-31T23:59:59+00:00");
         nasaModisJob.setBbox(Arrays.asList(13.365373, 52.49582, 13.385796, 52.510455));
@@ -44,4 +44,9 @@ public class CreatingRunningJobs {
         return nasaModisJob;
     }
 
-}
+    public void createJobsWithDefaultData(CreateRunningJobsPojo createRunningJobsPojo) {
+        given(BaseService.getRequestSpec(APIPaths.getBaseURI())).auth().oauth2(TokenManager.getToken())
+                .contentType(ContentType.JSON).body(createRunningJobsPojo).when().post(new APIPaths().getCreateRunningJobsPath())
+                .getBody().prettyPrint();
+    }
+    }

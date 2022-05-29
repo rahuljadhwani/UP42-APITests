@@ -1,8 +1,6 @@
 package constants;
 
 
-import utils.PropertyReaderUtil;
-
 public class APIPaths {
 
     private static String baseURI = "https://api.up42.com";
@@ -18,20 +16,20 @@ public class APIPaths {
         return baseURI;
     }
 
-    public static String getFetchAccessTokenURI() {
+    public static String getFetchAccessTokenPath() {
         return String.format(fetchAccessTokenURI, FrameworkConstants.getProjectID(),FrameworkConstants.getProjectAPIKey());
     }
 
-    public static String getCreateWorkflowURI() {
-        return createWorkflowURI;
+    public static String getCreateWorkflowPath() {
+        return String.format(createWorkflowURI,FrameworkConstants.getProjectID());
     }
 
 
-    public static String getAddingWorkflowTasksURI() {
-        return addingWorkflowTasksURI;
+    public static String getAddingWorkflowTasksPath(String workFlowId) {
+        return String.format(addingWorkflowTasksURI,FrameworkConstants.getProjectID(),workFlowId);
     }
 
-    public static String getCreateRunningJobsURI() {
+    public static String getCreateRunningJobsPath() {
         return createRunningJobsURI;
     }
 

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Tasks {
+public class TasksPojo {
 
     private String name;
     private String parentName;
