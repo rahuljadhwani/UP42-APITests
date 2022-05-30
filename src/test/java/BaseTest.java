@@ -1,4 +1,8 @@
 import constants.FrameworkConstants;
+import listeners.TestListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Reporter;
 import org.testng.annotations.AfterSuite;
 
 /**
@@ -10,6 +14,8 @@ import org.testng.annotations.AfterSuite;
 public class BaseTest {
 
 
+    private static final Logger logger = LoggerFactory.getLogger(TestListener.class);
+
     /**
      * The following method would perform clean-up process, for now it deletes the data from Map after test execution is completed.
      *
@@ -17,6 +23,11 @@ public class BaseTest {
     @AfterSuite
     public void cleanUp(){
         FrameworkConstants.setPropertyMap(null);
+    }
+
+    public static void logData(String message){
+        Reporter.log(message);
+        logger.info(message);
     }
 
 

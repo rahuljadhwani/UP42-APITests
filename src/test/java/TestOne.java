@@ -1,6 +1,7 @@
 import constants.FrameworkConstants;
 import io.restassured.response.Response;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.Test;
 import services.*;
 import static org.hamcrest.Matchers.*;
@@ -38,6 +39,8 @@ public class TestOne extends BaseTest{
         assertThat(response.jsonPath().get("data.name").toString(), is(FrameworkConstants.getPropertyMap().get("workflowName")));
         Assert.assertNull(response.jsonPath().get("error"));
 
+        logData("Workflow successfully created. ID: "+workflowId);
+
     }
 
     @Test(enabled = true, dependsOnMethods = "testWorkflowCreation", priority = 2)
@@ -55,6 +58,8 @@ public class TestOne extends BaseTest{
         assertThat(response.jsonPath().get("data[1].block.id").toString(), oneOf(FrameworkConstants.getPropertyMap().get("nasaModiBlockId"),FrameworkConstants.getPropertyMap().get("sharpeningBlockId")));
         Assert.assertNull(response.jsonPath().get("error"));
 
+        logData("Tasks successfully added to Workflow ID "+workflowId);
+
     }
 
     @Test(enabled = true, dependsOnMethods = "testAddingWorkflowTasks", priority = 3)
@@ -69,6 +74,8 @@ public class TestOne extends BaseTest{
         assertThat(response.jsonPath().get("data.createdBy.id").toString(), is(FrameworkConstants.getProjectID()));
         assertThat(response.jsonPath().get("data.createdBy.type").toString(), is("API_KEY"));
         Assert.assertNull(response.jsonPath().get("error"));
+
+        logData("Jobs successfully created. Job ID: "+jobId);
 
     }
 
@@ -90,6 +97,8 @@ public class TestOne extends BaseTest{
         Response response = deleteWorkflowService.deleteWorkflow(workflowId);
 
         assertThat(response.getStatusCode(), is(204));
+
+        logData("Workflow ID "+workflowId+" successfully deleted");
     }
 
 }
