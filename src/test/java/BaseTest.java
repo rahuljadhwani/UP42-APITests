@@ -1,5 +1,5 @@
 import constants.FrameworkConstants;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterSuite;
 
 /**
  * Common methods which should be executed before and after each test, test set, test suite, etc. can be placed here
@@ -9,7 +9,12 @@ import org.testng.annotations.AfterTest;
 
 public class BaseTest {
 
-    @AfterTest
+
+    /**
+     * The following method would perform clean-up process, for now it deletes the data from Map after test execution is completed.
+     *
+     */
+    @AfterSuite
     public void cleanUp(){
         FrameworkConstants.setPropertyMap(null);
     }

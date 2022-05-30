@@ -39,4 +39,10 @@ public class CreateWorkflowService {
         return given(BaseService.getRequestSpec(APIPaths.getCreateWorkflowPath())).auth().oauth2(TokenManager.getToken())
                 .body(setupWorkflowPojoWithDefaultData()).when().post().then().spec(BaseService.getResponseSpec()).extract().response();
     }
+
+
+    public Response createWorkflowWithCustomData(String projectId){
+        return given(BaseService.getRequestSpec(APIPaths.getCreateWorkflowPath(projectId))).auth().oauth2(TokenManager.getToken())
+                .body(setupWorkflowPojoWithDefaultData()).when().post().then().spec(BaseService.getResponseSpec()).extract().response();
+    }
 }

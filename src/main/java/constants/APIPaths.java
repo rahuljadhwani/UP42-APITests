@@ -34,6 +34,9 @@ public final class APIPaths {
         return String.format(createWorkflowURI,FrameworkConstants.getProjectID());
     }
 
+    public static String getCreateWorkflowPath(String projectId) {
+        return String.format(createWorkflowURI,projectId);
+    }
 
     public static String getAddingWorkflowTasksPath(String workflowId) {
         return String.format(addingWorkflowTasksURI,FrameworkConstants.getProjectID(),workflowId);

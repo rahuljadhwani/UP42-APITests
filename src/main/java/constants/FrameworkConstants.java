@@ -18,11 +18,15 @@ public class FrameworkConstants {
 
    static  {
         FrameworkConstants.setPropertyMap(PropertyReaderUtil.readPropertyFileAsMap(FrameworkConstants.getFrameworkPropertyFilePath()));
+        FrameworkConstants.setPropertyMap(PropertyReaderUtil.readPropertyFileAsMap(FrameworkConstants.getInvalidDateFilePath()));
     }
 
 
     @Getter
     private static final String frameworkPropertyFilePath = "src/main/resources/ProjectDetails/ProjectDetails.properties";
+
+    @Getter
+    private static final String invalidDateFilePath = "src/main/resources/GenericData/InvalidData.properties";
 
     @Getter
     @Setter
