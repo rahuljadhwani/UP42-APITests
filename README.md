@@ -19,6 +19,15 @@ OR
 
 ******************************************************************************
 
+Sensitive Data management:
+
+In this project, sensitive data can be "Project_ID" and "Project_API_Key". This can be encrypted using git-crypt.
+Since git-crypt needs separate installation, for now properties file containing this data is kept in .gitignore file to keep everything simple.
+
+This data can also be seen in console logs, which can further be masked using logback library and some masking patterns over it.
+
+******************************************************************************
+
 Reports:
 
 Reports from TestNG can be referred in test-output folder or target folder with name "emailable-report.html"
