@@ -4,18 +4,19 @@ This Framwork is built using Rest Assured, Java, Maven, TestNG.
 
 ****************************************************************************
 
-How to use this framework?
-Please make sure you have Java and Maven installed in your system.
+How to run this framework?
+> Please make sure you have Java and Maven installed in your system.
 
-1. Clone the repository to your workspace.
+Clone this repository to your workspace.
 
-2. Open pom.xml in your Java IDE as a maven project
+1. Open pom.xml in your Java IDE as a maven project.
+2. Refresh Maven/ download all dependencies.
 3. Run the testng.xml file.
 
 OR
 
-2. Maven surefire plugin is also configured to run testng.xml file
-3. So, Open Terminal in project folder where pom.xml is present and then run this command "mvn clean test"
+Maven surefire plugin inside pom.xml is also configured to run this testng.xml file:
+1. For this, Open Terminal in project folder where pom.xml is present and then run this command "mvn clean test"
 
 ******************************************************************************
 
@@ -30,7 +31,9 @@ This data can also be seen in console logs, which can further be masked using lo
 
 Reports:
 
-Reports from TestNG can be referred in test-output folder or target folder with name "emailable-report.html"
+Default reports from TestNG can be referred in following project paths:
+1. If testng.xml is run directly from an IDE: "test-output" folder -> "emailable-report.html"
+2. If it is run via terminal using "mvn clean test" command: target -> surefire-reports -> "emailable-report.html"
 
 
 ******************************************************************************
