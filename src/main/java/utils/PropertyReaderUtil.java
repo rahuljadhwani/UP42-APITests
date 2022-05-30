@@ -16,6 +16,9 @@ import java.util.Properties;
 
 public class PropertyReaderUtil {
 
+    /**
+     * Constructor is made private to prevent object-creation of this class, as this class contains all static methods.
+     */
     private PropertyReaderUtil(){
 
     }

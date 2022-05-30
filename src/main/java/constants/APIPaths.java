@@ -9,6 +9,9 @@ package constants;
 
 public final class APIPaths {
 
+    /**
+     * Constructor is made private to prevent object-creation of this class, as this class contains all static methods.
+     */
     private APIPaths(){
 
     }

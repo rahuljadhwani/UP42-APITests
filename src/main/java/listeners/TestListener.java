@@ -7,6 +7,14 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
+
+/**
+ * This class implements ITestListener to perform tasks upon status of testcase(start, pass, fail, etc.)
+ *
+ * For now, it contains reporting and logging actions.
+ *
+ * @author Rahul Jadhwani [30/05/2022]
+ */
 public class TestListener implements ITestListener {
 
     private static final Logger logger = LoggerFactory.getLogger(TestListener.class);
