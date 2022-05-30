@@ -1,6 +1,7 @@
 package services;
 
 import constants.APIPaths;
+import io.restassured.authentication.AuthenticationScheme;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -14,7 +15,6 @@ public class BaseService {
                 setBaseUri(APIPaths.getBaseURI()).
                 setBasePath(basePath).
                 setContentType(ContentType.JSON).
-                log(LogDetail.ALL).
                 build();
     }
 

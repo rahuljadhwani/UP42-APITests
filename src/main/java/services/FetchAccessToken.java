@@ -2,6 +2,7 @@ package services;
 
 import constants.APIPaths;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import pojo.requests.FetchAccessTokenRequestPojo;
 import utils.TokenManager;
 
@@ -23,6 +24,13 @@ public class FetchAccessToken {
                 .formParam("grant_type","client_credentials")
                 .post()
                 .getBody().jsonPath().get("data.accessToken");
+    }
+
+    public Response fetchAccessTokenResponse(){
+
+        return given(BaseService.getTokenRequestSpec())
+                .formParam("grant_type","client_credentials")
+                .post().then().spec(BaseService.getResponseSpec()).extract().response();
     }
 
 

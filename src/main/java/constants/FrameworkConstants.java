@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 public class FrameworkConstants {
 
+    private FrameworkConstants(){}
+
    static  {
         FrameworkConstants.setPropertyMap(PropertyReaderUtil.readPropertyFileAsMap(FrameworkConstants.getFrameworkPropertyFilePath()));
     }

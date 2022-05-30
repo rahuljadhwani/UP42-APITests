@@ -1,89 +1,92 @@
-import enums.Strength;
+import constants.FrameworkConstants;
+import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-import pojo.requests.CreateRunningJobsPojo;
 import pojo.requests.CreateWorkflowPojo;
 import pojo.requests.TasksPojo;
-import pojo.requests.jobs.NasaModisJob;
-import pojo.requests.jobs.SharpeningJob;
 import services.*;
 
-public class TestOne {
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
 
-    @Test
-    public void endtoEndFlowTest(){
+public class TestOne extends BaseTest{
 
-        CreateWorkflowPojo createWorkflowPojo = new CreateWorkflowPojo();
-        createWorkflowPojo.setName("Rahul Workflow");
-        createWorkflowPojo.setDescription("QA Rahul description");
-        CreateWorkflowService createWorkflowService = new CreateWorkflowService();
-        String workflowId = createWorkflowService.getWorkflowId(createWorkflowPojo);
+    String workflowId;
+    String jobId;
 
-        AddingWorkflowTasksService addingWorkflowTasksService = new AddingWorkflowTasksService();
-        TasksPojo[] tasks = createDefaultTask();
-
-        addingWorkflowTasksService.addWorkflowTasksWithDefaultData(workflowId,tasks).prettyPrint();
-
-        CreateRunningJobsService createRunningJobsService = new CreateRunningJobsService();
-        String jobId = createRunningJobsService.createJobsWithDefaultData(workflowId).getBody().jsonPath().get("data.id");
-
-        RetrieveJobDetailsService retrieveJobDetailsService = new RetrieveJobDetailsService();
-        retrieveJobDetailsService.retrieveJobDetails(jobId);
-
-        DeleteWorkflowService deleteWorkflowService = new DeleteWorkflowService();
-        deleteWorkflowService.deleteWorkflow(workflowId);
-
+    @Test(priority = 0)
+    public void testFetchAccessToken(){
+        FetchAccessToken fetchAccessToken = new FetchAccessToken();
+        Response response = fetchAccessToken.fetchAccessTokenResponse();
+        assertThat(response.getStatusCode(), is(200));
+        assertThat(response.jsonPath().get("data.accessToken"), not(blankString()));
     }
 
-    private TasksPojo[] createDefaultTask() {
-        TasksPojo task1 = new TasksPojo();
-        task1.setName("nasa-modis:1");
-        task1.setParentName(null);
-        task1.setBlockId("ef6faaf5-8182-4986-bce4-4f811d2745e5");
-
-        TasksPojo task2 = new TasksPojo();
-        task2.setName("sharpening:1");
-        task2.setParentName("nasa-modis:1");
-        task2.setBlockId("e374ea64-dc3b-4500-bb4b-974260fb203e");
-
-        TasksPojo tasks[] = new TasksPojo[]{task1,task2};
-        return tasks;
-    }
-
-    @Test
+    @Test(dependsOnMethods = "testFetchAccessToken", priority = 1)
     public void testWorkflowCreation(){
 
+        CreateWorkflowService createWorkflowService = new CreateWorkflowService();
+        Response response = createWorkflowService.createWorkflowWithDefaultData();
+
+        assertThat(response.getStatusCode(), is(200));
+        assertThat(response.getHeader("Content-Type"), is("application/json"));
+        assertThat(response.jsonPath().get("data.id"), not(blankString()));
+        workflowId = response.jsonPath().get("data.id").toString();
+        assertThat(response.jsonPath().get("data.name").toString(), is(FrameworkConstants.getPropertyMap().get("workflowName")));
+        Assert.assertNull(response.jsonPath().get("error"));
+
     }
 
-    @Test
+    @Test(enabled = true, dependsOnMethods = "testWorkflowCreation", priority = 2)
     public void testAddingWorkflowTasks(){
+        AddingWorkflowTasksService addingWorkflowTasksService = new AddingWorkflowTasksService();
+        Response response = addingWorkflowTasksService.addWorkflowTasksWithDefaultData(workflowId);
+
+        assertThat(response.getStatusCode(), is(200));
+        assertThat(response.getHeader("Content-Type"), is("application/json"));
+        assertThat(response.jsonPath().get("data[0].id"), not(blankString()));
+        assertThat(response.jsonPath().get("data[0].updatedBy.id").toString(), is(FrameworkConstants.getProjectID()));
+        assertThat(response.jsonPath().get("data[1].updatedBy.id").toString(), is(FrameworkConstants.getProjectID()));
+        assertThat(response.jsonPath().getList("data.id").size(), greaterThanOrEqualTo(1));
+        assertThat(response.jsonPath().get("data[0].block.id").toString(), oneOf(FrameworkConstants.getPropertyMap().get("nasaModiBlockId"),FrameworkConstants.getPropertyMap().get("sharpeningBlockId")));
+        assertThat(response.jsonPath().get("data[1].block.id").toString(), oneOf(FrameworkConstants.getPropertyMap().get("nasaModiBlockId"),FrameworkConstants.getPropertyMap().get("sharpeningBlockId")));
+        Assert.assertNull(response.jsonPath().get("error"));
 
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true, dependsOnMethods = "testAddingWorkflowTasks", priority = 3)
     public void testRunningJobsCreation(){
-        CreateRunningJobsPojo createRunningJobsPojo = new CreateRunningJobsPojo();
+        CreateRunningJobsService createRunningJobsService = new CreateRunningJobsService();
+        Response response = createRunningJobsService.createJobsWithDefaultData(workflowId);
+        jobId = response.getBody().jsonPath().get("data.id");
 
-        CreateRunningJobsService creatingRunningJobsService = new CreateRunningJobsService();
-
-        NasaModisJob nasaModisJob = CreateRunningJobsService.createNasaModisJobWithDefaultData();
-
-        SharpeningJob sharpeningJob = new SharpeningJob();
-        sharpeningJob.setStrength(Strength.medium);
-        createRunningJobsPojo.setSharpening(sharpeningJob);
-        createRunningJobsPojo.setNasamodis(nasaModisJob);
-//        creatingRunningJobsService.createJobsWithDefaultData(createRunningJobsPojo);
-
+        assertThat(response.statusCode(), is(200));
+        assertThat(response.getHeader("Content-Type"), is("application/json"));
+        assertThat(response.jsonPath().get("data.id"), not(blankString()));
+        assertThat(response.jsonPath().get("data.createdBy.id").toString(), is(FrameworkConstants.getProjectID()));
+        assertThat(response.jsonPath().get("data.createdBy.type").toString(), is("API_KEY"));
+        Assert.assertNull(response.jsonPath().get("error"));
 
     }
 
-    @Test
+    @Test(enabled = true, dependsOnMethods = "testRunningJobsCreation", priority = 4)
     public void testRetrieveJobDetails(){
+        RetrieveJobDetailsService retrieveJobDetailsService = new RetrieveJobDetailsService();
+        Response response = retrieveJobDetailsService.retrieveJobDetails(jobId);
+
+        assertThat(response.statusCode(), is(200));
+        assertThat(response.getHeader("Content-Type"), is("application/json"));
+        assertThat(response.jsonPath().get("data.id").toString(), is(jobId));
+        Assert.assertNull(response.jsonPath().get("error"));
 
     }
 
-    @Test
+    @Test(enabled = true, dependsOnMethods = "testWorkflowCreation", priority = 5)
     public void testDeleteWorkflow(){
+        DeleteWorkflowService deleteWorkflowService = new DeleteWorkflowService();
+        Response response = deleteWorkflowService.deleteWorkflow(workflowId);
 
+        assertThat(response.getStatusCode(), is(204));
     }
 
 }

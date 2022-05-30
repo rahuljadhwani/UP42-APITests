@@ -31,6 +31,13 @@ public class CreateRunningJobsService {
                 .then().spec(BaseService.getResponseSpec()).extract().response();
     }
 
+    public Response createJobsWithCustomData(String workflowId, CreateRunningJobsPojo createRunningJobsPojo) {
+        return given(BaseService.getRequestSpec(APIPaths.getCreateRunningJobsPath(workflowId))).auth().oauth2(TokenManager.getToken())
+                .body(createRunningJobsPojo).when().post()
+                .then().spec(BaseService.getResponseSpec()).extract().response();
+    }
+
+
     public static NasaModisJob createNasaModisJobWithDefaultData(){
         NasaModisJob nasaModisJob = new NasaModisJob();
         nasaModisJob.setTime("2018-12-01T00:00:00+00:00/2020-12-31T23:59:59+00:00");
@@ -42,9 +49,4 @@ public class CreateRunningJobsService {
         return nasaModisJob;
     }
 
-    public Response createJobsWithDefaultData(String workflowId, CreateRunningJobsPojo createRunningJobsPojo) {
-        return given(BaseService.getRequestSpec(APIPaths.getCreateRunningJobsPath(workflowId))).auth().oauth2(TokenManager.getToken())
-                .body(createRunningJobsPojo).when().post()
-                .then().spec(BaseService.getResponseSpec()).extract().response();
-    }
-    }
+}

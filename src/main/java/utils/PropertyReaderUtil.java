@@ -12,6 +12,10 @@ import java.util.Properties;
 
 public class PropertyReaderUtil {
 
+    private PropertyReaderUtil(){
+
+    }
+
     static HashMap<String, String> propertyFileData = new HashMap<>();
 
     public static HashMap<String, String> readPropertyFileAsMap(String filePathFromProjectRoot) {

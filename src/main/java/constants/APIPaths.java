@@ -1,7 +1,11 @@
 package constants;
 
 
-public class APIPaths {
+public final class APIPaths {
+
+    private APIPaths(){
+
+    }
 
     private static String baseURI = "https://api.up42.com";
     private static String fetchAccessTokenURI = "https://%s:%s@api.up42.com";
