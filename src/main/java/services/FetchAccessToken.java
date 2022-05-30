@@ -1,23 +1,25 @@
 package services;
 
-import constants.APIPaths;
-import io.restassured.http.ContentType;
+
 import io.restassured.response.Response;
 import pojo.requests.FetchAccessTokenRequestPojo;
-import utils.TokenManager;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import static io.restassured.RestAssured.*;
+
+/**
+ * This class contains methods related to Fetch Access Token API.
+ *
+ * @author Rahul Jadhwani [30/05/2022]
+ */
 
 public class FetchAccessToken {
 
-    //POST for fetching access token and logic to verify its validity
 
-    FetchAccessTokenRequestPojo fetchAccessTokenRequestPojo = new FetchAccessTokenRequestPojo();
-    Map<String, Object> requestMap = new LinkedHashMap<>();
-
+    /**
+     * This method will be used to perform POST - and fetch an Access Token.
+     *
+     */
     public String fetchAccessToken(){
 
         return given(BaseService.getTokenRequestSpec())
@@ -26,6 +28,11 @@ public class FetchAccessToken {
                 .getBody().jsonPath().get("data.accessToken");
     }
 
+
+    /**
+     * This method will be used to perform POST - and fetch an Access Token along with its Response details.
+     *
+     */
     public Response fetchAccessTokenResponse(){
 
         return given(BaseService.getTokenRequestSpec())

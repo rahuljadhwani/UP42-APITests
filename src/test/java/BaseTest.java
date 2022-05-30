@@ -1,6 +1,11 @@
 import constants.FrameworkConstants;
 import org.testng.annotations.AfterTest;
-import utils.PropertyReaderUtil;
+
+/**
+ * Common methods which should be executed before and after each test, test set, test suite, etc. can be placed here
+ *
+ * @author Rahul Jadhwani [30/05/2022]
+ */
 
 public class BaseTest {
 

@@ -2,12 +2,15 @@ import constants.FrameworkConstants;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pojo.requests.CreateWorkflowPojo;
-import pojo.requests.TasksPojo;
 import services.*;
-
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
+
+/**
+ * This class contains basic tests(and related assertions) from generating token, creating workflow, tasks, jobs and finally deleting the workflow.
+ *
+ * @author Rahul Jadhwani [30/05/2022]
+ */
 
 public class TestOne extends BaseTest{
 

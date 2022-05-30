@@ -1,5 +1,11 @@
 package constants;
 
+/**
+ * This class contains Base URI and endpoints to all APIs.
+ * Fields like workflowId and jobId are appended to these paths at run-time
+ *
+ * @author Rahul Jadhwani [30/05/2022]
+ */
 
 public final class APIPaths {
 

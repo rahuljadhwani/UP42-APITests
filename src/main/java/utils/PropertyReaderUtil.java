@@ -1,7 +1,5 @@
 package utils;
 
-import constants.FrameworkConstants;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +7,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+/**
+ * This class will create a Map of key-value pairs used for constructing fields and payload and same canbe used for validations
+ *
+ * @author Rahul Jadhwani [30/05/2022]
+ */
 
 public class PropertyReaderUtil {
 
