@@ -22,8 +22,10 @@ Maven surefire plugin inside pom.xml is also configured to run this testng.xml f
 
 Sensitive Data management:
 
-In this project, sensitive data can be "Project_ID" and "Project_API_Key". This can be encrypted using git-crypt.
-Since git-crypt needs separate installation, for now properties file containing this data is kept in .gitignore file to keep everything simple.
+In this project, sensitive data such as "Project_API_Key" can be encrypted using git-crypt.
+Also, Properties file containing such data can also be kept in .gitignore file to avoid pushing it to remote repositories.
+
+For this demo and simplicity, I have pushed this data to github as well.
 
 This data can also be seen in console logs, which can further be masked using logback library and some masking patterns over it.
 
