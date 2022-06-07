@@ -4,6 +4,9 @@ import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.Test;
 import services.*;
+
+import java.io.FileNotFoundException;
+
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
@@ -23,6 +26,10 @@ public class TestOne extends BaseTest{
         FetchAccessToken fetchAccessToken = new FetchAccessToken();
         Response response = fetchAccessToken.fetchAccessTokenResponse();
         assertThat(response.getStatusCode(), is(200));
+
+        //Schema Validation
+        fetchAccessToken.validateFetchAccessTokenResponseSchema(response);
+
         assertThat(response.jsonPath().get("data.accessToken"), not(blankString()));
     }
 
@@ -32,8 +39,14 @@ public class TestOne extends BaseTest{
         CreateWorkflowService createWorkflowService = new CreateWorkflowService();
         Response response = createWorkflowService.createWorkflowWithDefaultData();
 
+
+
         assertThat(response.getStatusCode(), is(200));
         assertThat(response.getHeader("Content-Type"), is("application/json"));
+
+        //Schema Validation
+        createWorkflowService.validateCreateWorkflowResponseSchema(response);
+
         assertThat(response.jsonPath().get("data.id"), not(blankString()));
         workflowId = response.jsonPath().get("data.id").toString();
         assertThat(response.jsonPath().get("data.name").toString(), is(FrameworkConstants.getPropertyMap().get("workflowName")));
@@ -44,12 +57,16 @@ public class TestOne extends BaseTest{
     }
 
     @Test(enabled = true, dependsOnMethods = "testWorkflowCreation", priority = 2)
-    public void testAddingWorkflowTasks(){
+    public void testAddingWorkflowTasks() throws FileNotFoundException {
         AddingWorkflowTasksService addingWorkflowTasksService = new AddingWorkflowTasksService();
         Response response = addingWorkflowTasksService.addWorkflowTasksWithDefaultData(workflowId);
 
         assertThat(response.getStatusCode(), is(200));
         assertThat(response.getHeader("Content-Type"), is("application/json"));
+
+        //Schema Validation
+        addingWorkflowTasksService.validateAddWorkflowTasksResponseSchema(response);
+
         assertThat(response.jsonPath().get("data[0].id"), not(blankString()));
         assertThat(response.jsonPath().get("data[0].updatedBy.id").toString(), is(FrameworkConstants.getProjectID()));
         assertThat(response.jsonPath().get("data[1].updatedBy.id").toString(), is(FrameworkConstants.getProjectID()));
@@ -70,6 +87,10 @@ public class TestOne extends BaseTest{
 
         assertThat(response.statusCode(), is(200));
         assertThat(response.getHeader("Content-Type"), is("application/json"));
+
+        //Schema Validation
+        createRunningJobsService.validateCreateRunningJobsResponseSchema(response);
+
         assertThat(response.jsonPath().get("data.id"), not(blankString()));
         assertThat(response.jsonPath().get("data.createdBy.id").toString(), is(FrameworkConstants.getProjectID()));
         assertThat(response.jsonPath().get("data.createdBy.type").toString(), is("API_KEY"));
@@ -86,6 +107,10 @@ public class TestOne extends BaseTest{
 
         assertThat(response.statusCode(), is(200));
         assertThat(response.getHeader("Content-Type"), is("application/json"));
+
+        //Schema Validation
+        retrieveJobDetailsService.validateRetrieveJobDetailsResponseSchema(response);
+
         assertThat(response.jsonPath().get("data.id").toString(), is(jobId));
         Assert.assertNull(response.jsonPath().get("error"));
 

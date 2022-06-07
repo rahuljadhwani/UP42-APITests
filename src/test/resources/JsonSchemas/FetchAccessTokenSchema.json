@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "accessToken"
+      ]
+    },
+    "access_token": {
+      "type": "string"
+    },
+    "token_type": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "data",
+    "access_token",
+    "token_type"
+  ]
+}

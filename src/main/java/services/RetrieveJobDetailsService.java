@@ -3,6 +3,9 @@ package services;
 import constants.APIPaths;
 import io.restassured.response.Response;
 import utils.TokenManager;
+
+import java.io.FileNotFoundException;
+
 import static io.restassured.RestAssured.given;
 
 /**
@@ -21,5 +24,9 @@ public class RetrieveJobDetailsService {
 
         return given(BaseService.getRequestSpec(APIPaths.getRetrieveJobDetailsURI(jobId))).auth().oauth2(TokenManager.getToken())
                 .when().get().then().spec(BaseService.getResponseSpec()).extract().response();
+    }
+
+    public void validateRetrieveJobDetailsResponseSchema(Response response) {
+        BaseService.schemaValidation("RetrieveJobDetailsSchema", response);
     }
 }

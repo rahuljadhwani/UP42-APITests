@@ -1,10 +1,19 @@
 package services;
 
 import constants.APIPaths;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import pojo.requests.TasksPojo;
 import utils.PropertyReaderUtil;
 import utils.TokenManager;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import static io.restassured.RestAssured.given;
 
 
@@ -61,6 +70,11 @@ public class AddingWorkflowTasksService {
 
             TasksPojo tasks[] = new TasksPojo[]{task1,task2};
             return tasks;
+        }
+
+
+        public void validateAddWorkflowTasksResponseSchema(Response response) {
+            BaseService.schemaValidation("AddingWorkflowTasksSchema", response);
         }
     }
 

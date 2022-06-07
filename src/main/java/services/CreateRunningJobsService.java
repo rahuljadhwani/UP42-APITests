@@ -7,6 +7,8 @@ import pojo.requests.CreateRunningJobsPojo;
 import pojo.requests.jobs.NasaModisJob;
 import pojo.requests.jobs.SharpeningJob;
 import utils.TokenManager;
+
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import static io.restassured.RestAssured.*;
 
@@ -65,6 +67,10 @@ public class CreateRunningJobsService {
         nasaModisJob.setZoomLevel(9);
 
         return nasaModisJob;
+    }
+
+    public void validateCreateRunningJobsResponseSchema(Response response) {
+        BaseService.schemaValidation("CreateRunningJobsSchema", response);
     }
 
 }
