@@ -2,6 +2,7 @@ package constants;
 
 import lombok.Getter;
 import lombok.Setter;
+import utils.CryptHelper;
 import utils.PropertyReaderUtil;
 import java.util.HashMap;
 
@@ -37,10 +38,11 @@ public class FrameworkConstants {
 
 
     public static String getProjectID(){
-        return getPropertyMap().get("ProjectID");
+        return CryptHelper.decodeData(getPropertyMap().get("ProjectID"));
+
     }
 
     public static String getProjectAPIKey(){
-        return getPropertyMap().get("ProjectAPIKey");
+        return CryptHelper.decodeData(getPropertyMap().get("ProjectAPIKey"));
     }
 }
