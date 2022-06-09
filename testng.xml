@@ -6,21 +6,15 @@
     <listener class-name="listeners.TestListener"></listener>
     </listeners>
 
-     <!--<test name="All tests">
+    <test name="All tests">
         <classes>
             <class name="TestOne"/>
-        </classes>    
+        </classes>
     </test>
 
     <test name="Negative Tests">
         <classes>
             <class name="TestTwo"/>
-        </classes>
-    </test>-->
-
-    <test name="Negative Tests">
-        <classes>
-            <class name="TestThree"/>
         </classes>
     </test>
 
