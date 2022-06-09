@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
  */
 
 class BaseService {
-    public static RequestSpecification getRequestSpec(String basePath){
+    public static RequestSpecification getRequestSpec(String basePath) {
         return new RequestSpecBuilder().
                 setBaseUri(APIPaths.getBaseURI()).
                 setBasePath(basePath).
@@ -30,7 +30,7 @@ class BaseService {
                 build();
     }
 
-    public static RequestSpecification getTokenRequestSpec(){
+    public static RequestSpecification getTokenRequestSpec() {
         return new RequestSpecBuilder().
                 setBaseUri(APIPaths.getFetchAccessTokenPath())
                 .setBasePath("/oauth/token")
@@ -38,18 +38,18 @@ class BaseService {
                 build();
     }
 
-    public static ResponseSpecification getResponseSpec(){
+    public static ResponseSpecification getResponseSpec() {
         return new ResponseSpecBuilder().
                 log(LogDetail.ALL).
                 build();
     }
 
-    public static void schemaValidation(String filename, Response response){
-        try{
-            response.then().body(JsonSchemaValidator.matchesJsonSchema(new FileInputStream(System.getProperty("user.dir")+"/src/test/resources/JsonSchemas/"+filename+".json")));
-        } catch (FileNotFoundException f){
+    public static void schemaValidation(String filename, Response response) {
+        try {
+            response.then().body(JsonSchemaValidator.matchesJsonSchema(new FileInputStream(System.getProperty("user.dir") + "/src/test/resources/JsonSchemas/" + filename + ".json")));
+        } catch (FileNotFoundException f) {
             f.printStackTrace();
-            Reporter.log("Schema for "+ filename+" could not be validated");
+            Reporter.log("Schema for " + filename + " could not be validated");
         }
     }
 }
