@@ -35,7 +35,6 @@ class BaseService {
                 setBaseUri(APIPaths.getFetchAccessTokenPath())
                 .setBasePath("/oauth/token")
                 .setContentType(ContentType.URLENC).
-                log(LogDetail.ALL).
                 build();
     }
 
