@@ -3,6 +3,8 @@ package services;
 
 import io.restassured.response.Response;
 import pojo.requests.FetchAccessTokenRequestPojo;
+
+import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import static io.restassured.RestAssured.*;
@@ -40,5 +42,8 @@ public class FetchAccessToken {
                 .post().then().spec(BaseService.getResponseSpec()).extract().response();
     }
 
+    public void validateFetchAccessTokenResponseSchema(Response response) {
+        BaseService.schemaValidation("FetchAccessTokenSchema", response);
+    }
 
 }

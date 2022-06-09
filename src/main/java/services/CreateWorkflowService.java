@@ -5,6 +5,9 @@ import io.restassured.response.Response;
 import pojo.requests.CreateWorkflowPojo;
 import utils.PropertyReaderUtil;
 import utils.TokenManager;
+
+import java.io.FileNotFoundException;
+
 import static io.restassured.RestAssured.given;
 
 /**
@@ -44,5 +47,9 @@ public class CreateWorkflowService {
     public Response createWorkflowWithCustomData(String projectId){
         return given(BaseService.getRequestSpec(APIPaths.getCreateWorkflowPath(projectId))).auth().oauth2(TokenManager.getToken())
                 .body(setupWorkflowPojoWithDefaultData()).when().post().then().spec(BaseService.getResponseSpec()).extract().response();
+    }
+
+    public void validateCreateWorkflowResponseSchema(Response response) {
+        BaseService.schemaValidation("CreateWorkflowSchema", response);
     }
 }

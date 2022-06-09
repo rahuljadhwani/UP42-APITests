@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        "updatedBy": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ]
+        },
+        "totalProcessingTime": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "createdAt",
+        "updatedAt",
+        "createdBy",
+        "updatedBy",
+        "totalProcessingTime"
+      ]
+    },
+    "error": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "data",
+    "error"
+  ]
+}
